@@ -13,9 +13,11 @@ router.get('/', async(req, res) => {
 router.get('/:id', async(req, res) => {
   try{
     const catData = await Category.findByPk(req.params.id, {
-      // JOIN with product, using the Tag through table
+      // JOIN with product, using category id
       include: [{ model: Product, where 'category_id = id' }]
     }).then return res.json(catData);
+
+
     // const catData = await Category.findByPk(req.params.id);
  
     // return res.json(catData);
