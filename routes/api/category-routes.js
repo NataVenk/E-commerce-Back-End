@@ -20,10 +20,7 @@ router.get('/:id', async(req, res) => {
       include: [Product],
     })
      return res.json(catData);
-    // const catData = await Category.findByPk(req.params.id);
- 
-    // return res.json(catData);
-    
+   
     })
 
   // find one category by its `id` value
@@ -42,15 +39,25 @@ router.post('/', async(req, res) => {
 
 
 router.put('/:id', async (req, res) => {
-  Category.update(
-    {
-    id: req.body.id,
-    category_name: req.body.category_name,
+  try{
+    const{id, category_name} = req.body;
+    const updateCat = await Category.update(
+      {id, category_name},
+  {
+    where: {
+      id: req.params.id
     }
-  )
-  
-  // update a category by its `id` value
+  });
+  res.json(updateCat);
+}
+  catch(err){
+    res.status(404).json(err);
+  }
+
 });
+
+  // update a category by its `id` value
+
 
 router.delete('/:id', async(req, res) =>  {
   const catData = await Category.destroy({
