@@ -4,11 +4,13 @@ const { Tag, Product, ProductTag } = require('../../models');
 // The `/api/tags` endpoint
 
 router.get('/', async(req, res) => {
+
   const tagData = await Tag.findAll();
   return res.json(tagData)
 });
 
 router.get('/:id', async(req, res) => {
+  
   const tagData = await Tag.findByPk(req.params.id, {
     // JOIN with product, using category id
     include: [Product],
@@ -20,6 +22,7 @@ router.get('/:id', async(req, res) => {
 });
 
 router.post('/', async(req, res) => {
+ 
   try {
     const tagData = await Tag.create(req.body);
     res.status(200).json(tagData);
@@ -30,6 +33,7 @@ router.post('/', async(req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
+
   try{
     const{id, tag_name} = req.body;
     const updateTag = await Tag.update(
@@ -47,6 +51,7 @@ router.put('/:id', async (req, res) => {
 });
 
 router.delete('/:id',  async(req, res) =>  {
+
   const tagData = await Category.destroy({
     where: {
       id: req.params.id
